@@ -12,6 +12,11 @@
     <p>
         <a href="/concerts/<%= concert._id %>/edit">Edit</a>
     </p>
+    <p>
+        <form action="/concerts/<%= concert._id %>?_method=delete " method="post">
+            <button>Delete</button>
+        </form>
+    </p>
     <footer>
         
         <a href="/concerts">All Concerts</a>

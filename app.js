@@ -52,6 +52,12 @@ app.put('/concerts/:id', async (req, res) => {
   res.redirect(`/concerts/${concert._id}`)
 })
 
+app.delete('/concerts/:id', async (req, res) => {
+  const { id } = req.params
+  await Concert.findByIdAndDelete(id)
+  res.redirect('/concerts')
+})
+
 app.listen(3000, () => {
   console.log('listening')
 })
