@@ -15,12 +15,23 @@ async function main() {
 
 const app = express()
 
+app.use(express.urlencoded({ extended: true }))
+
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.get('/concerts', async (req, res) => {
   const concerts = await Concert.find({})
   res.render('concerts/index', { concerts })
+})
+
+app.get('/concerts/new', (req, res) => {
+  res.render('concerts/new')
+})
+app.post('/concerts', async (req, res) => {
+  const concert = new Concert(req.body.concert)
+  await concert.save()
+  res.redirect(`/concerts/${concert._id}`)
 })
 
 app.get('/concerts/:id', async (req, res) => {

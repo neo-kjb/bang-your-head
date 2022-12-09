@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>All Concerts</h1>
+    <p><a href="/concerts/new">Add New Concert</a></p>
     <ul>
         <% for(let concert of concerts){%>
             <li><a href="/concerts/<%= concert._id %> "><%= concert.title %></a> </li>
