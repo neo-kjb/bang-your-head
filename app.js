@@ -18,17 +18,15 @@ const app = express()
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-app.get('/', (req, res) => {
-  res.render('home')
+app.get('/concerts', async (req, res) => {
+  const concerts = await Concert.find({})
+  res.render('concerts/index', { concerts })
 })
 
-app.get('/makeconcert', async (req, res) => {
-  const conc = new Concert({
-    title: 'killer jam',
-    description: 'emotional live',
-  })
-  await conc.save()
-  res.send(conc)
+app.get('/concerts/:id', async (req, res) => {
+  const { id } = req.params
+  const conc = await Concert.findById(id)
+  res.render('concerts/show', { conc })
 })
 
 app.listen(3000, () => {
