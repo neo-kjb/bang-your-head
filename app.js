@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.get('/makeconcert', async (req, res) => {
   const conc = new Concert({
-    band: 'killer jam',
+    title: 'killer jam',
     description: 'emotional live',
   })
   await conc.save()
