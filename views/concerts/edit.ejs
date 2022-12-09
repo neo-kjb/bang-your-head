@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Concert</title>
+</head>
+<body>
+    <h1>Edit Concert</h1>
+    <form action="/concerts/<%= concert._id %>?_method=put " method="post">
+        <div>
+            <label for="title">Band name :</label>
+            <input type="text" id="title" name="concert[title]" value="<%= concert.title %> ">
+        </div>
+        <div>
+            <label for="location">Concert location :</label>
+            <input type="text" id="location" name="concert[location]" value="<%=concert.location%>">
+        </div>
+        <button>Update Concert</button>
+    </form>
+    <a href="/concerts/<%= concert._id %> ">Back To Concert</a>
+</body>
+</html>
