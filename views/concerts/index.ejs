@@ -3,7 +3,27 @@
     <p><a href="/concerts/new">Add New Concert</a></p>
     <ul>
         <% for(let concert of concerts){%>
-            <li><a href="/concerts/<%= concert._id %> "><%= concert.title %></a> </li>
-
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid" src="<%= concert.image %> " alt="">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= concert.title %> 
+                            </h5>
+                            <p class="card-text"><%= concert.description %> </p>
+                            <p class="card-text">
+                                <small class="text-muted"><%= concert.location %> </small>
+                            </p>
+                            <a class="btn btn-primary" href="/concerts/<%= concert._id %> ">View Concert</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
        <% } %> 
     </ul>
+
+
