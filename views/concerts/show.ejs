@@ -1,6 +1,8 @@
 <% layout('layouts/boilerplate') %> 
     <h1><%= concert.title %> </h1>
     <h2><%= concert.location %></h2>
+    <img src="<%= concert.image %> " alt="">
+    <p><%= concert.description %> </p>
     <p>
         <a href="/concerts/<%= concert._id %>/edit">Edit</a>
     </p>

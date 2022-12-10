@@ -20,6 +20,10 @@ const seedDB = async () => {
     const conc = new Concert({
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(names)}`,
+      image: 'https://source.unsplash.com/collection/834389',
+      description:
+        '  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dolores vero cum atque amet nam obcaecati vel ratione dolorum qui totam maxime animi vitae praesentium ea, eos pariatur ullam et?',
+      price: Math.floor(Math.random() * 20) + 10,
     })
     await conc.save()
   }
