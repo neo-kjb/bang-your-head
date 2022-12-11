@@ -4,6 +4,8 @@ const path = require('path')
 const Concert = require('./models/concerts')
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
+const catchAsync = require('./utils/catchAsync')
+const ExpressError = require('./utils/ExpressError')
 
 main().catch((err) => console.log(err))
 
@@ -24,40 +26,68 @@ app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-app.get('/concerts', async (req, res) => {
-  const concerts = await Concert.find({})
-  res.render('concerts/index', { concerts })
-})
+app.get(
+  '/concerts',
+  catchAsync(async (req, res) => {
+    const concerts = await Concert.find({})
+    res.render('concerts/index', { concerts })
+  }),
+)
 
 app.get('/concerts/new', (req, res) => {
   res.render('concerts/new')
 })
-app.post('/concerts', async (req, res) => {
-  const concert = new Concert(req.body.concert)
-  await concert.save()
-  res.redirect(`/concerts/${concert._id}`)
+app.post(
+  '/concerts',
+  catchAsync(async (req, res) => {
+    if (!req.body.concert) throw new ExpressError('Invalid Concert Data', 400)
+    const concert = new Concert(req.body.concert)
+    await concert.save()
+    res.redirect(`/concerts/${concert._id}`)
+  }),
+)
+
+app.get(
+  '/concerts/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params
+    const concert = await Concert.findById(id)
+    res.render('concerts/show', { concert })
+  }),
+)
+
+app.get(
+  '/concerts/:id/edit',
+  catchAsync(async (req, res) => {
+    const concert = await Concert.findById(req.params.id)
+    res.render('concerts/edit', { concert })
+  }),
+)
+app.put(
+  '/concerts/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params
+    const concert = await Concert.findByIdAndUpdate(id, { ...req.body.concert })
+    res.redirect(`/concerts/${concert._id}`)
+  }),
+)
+
+app.delete(
+  '/concerts/:id',
+  catchAsync(async (req, res) => {
+    const { id } = req.params
+    await Concert.findByIdAndDelete(id)
+    res.redirect('/concerts')
+  }),
+)
+
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page Not Found', 404))
 })
 
-app.get('/concerts/:id', async (req, res) => {
-  const { id } = req.params
-  const concert = await Concert.findById(id)
-  res.render('concerts/show', { concert })
-})
-
-app.get('/concerts/:id/edit', async (req, res) => {
-  const concert = await Concert.findById(req.params.id)
-  res.render('concerts/edit', { concert })
-})
-app.put('/concerts/:id', async (req, res) => {
-  const { id } = req.params
-  const concert = await Concert.findByIdAndUpdate(id, { ...req.body.concert })
-  res.redirect(`/concerts/${concert._id}`)
-})
-
-app.delete('/concerts/:id', async (req, res) => {
-  const { id } = req.params
-  await Concert.findByIdAndDelete(id)
-  res.redirect('/concerts')
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = 'Something Went Wrong' } = err
+  res.status(statusCode).send(message)
 })
 
 app.listen(3000, () => {
