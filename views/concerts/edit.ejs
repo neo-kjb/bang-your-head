@@ -3,29 +3,45 @@
     <div class="row">
         <h1 class="text-center">Edit Concert</h1>
         <div class="col-6 offset-3">
-            <form action="/concerts/<%= concert._id %>?_method=put " method="post">
+            <form action="/concerts/<%= concert._id %>?_method=put " method="post" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="title">Band name</label>
-                    <input class="form-control" type="text" id="title" name="concert[title]" value="<%= concert.title %>">
+                    <input class="form-control" type="text" id="title" name="concert[title]" value="<%= concert.title %>" required>
+                    <div class="valid-feedback">
+                        Valid
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Concert location</label>
-                    <input class="form-control" type="text" id="location" name="concert[location]" value="<%= concert.location %> ">
+                    <input class="form-control" type="text" id="location" name="concert[location]" value="<%= concert.location %> " required>
+                    <div class="valid-feedback">
+                        Valid
+                    </div>
+                    
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="image">Image URL</label>
-                    <input class="form-control" type="text" id="image" name="concert[image]" value="<%= concert.image %> ">
+                    <input class="form-control" type="text" id="image" name="concert[image]" value="<%= concert.image %> " required>
+                    <div class="valid-feedback">
+                        Valid
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="price">Concert Price</label>
                     <div class="input-group">
                         <span class="input-group-text" id="price-label">$</span>
-                        <input value="<%= concert.price %> " name="concert[price]" id="price" type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label">
+                        <input value="<%= concert.price %> " name="concert[price]" id="price" type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label" required>
+                        <div class="valid-feedback">
+                            Valid
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="concert[description]"><%= concert.description %></textarea>
+                    <textarea class="form-control" type="text" id="description" name="concert[description]" required><%= concert.description %></textarea >
+                    <div class="valid-feedback">
+                        Valid
+                    </div>
                 </div>
                 <div class="mb-3"><button class="btn btn-info">Update Concert</button>
                 </div>
