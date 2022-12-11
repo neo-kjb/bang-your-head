@@ -2,29 +2,44 @@
 <div class="row">
     <h1 class="text-center">New Concert</h1>
     <div class="col-6 offset-3">
-        <form action="/concerts" method="post">
+        <form action="/concerts" method="post" class="validated-form" novalidate>
             <div class="mb-3">
                 <label class="form-label" for="title">Band name</label>
-                <input class="form-control" type="text" id="title" name="concert[title]">
+                <input class="form-control" type="text" id="title" name="concert[title]" required>
+                <div class="valid-feedback">
+                    Valid
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Concert location</label>
-                <input class="form-control" type="text" id="location" name="concert[location]">
+                <input class="form-control" type="text" id="location" name="concert[location]" required>
+                <div class="valid-feedback">
+                    Valid
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image URL</label>
-                <input class="form-control" type="text" id="image" name="concert[image]">
+                <input class="form-control" type="text" id="image" name="concert[image]" required>
+                <div class="valid-feedback">
+                    Valid
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Concert Price</label>
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input name="concert[price]" id="price" type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label">
+                    <input name="concert[price]" id="price" type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label" required>
+                    <div class="valid-feedback">
+                        Valid
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="concert[description]"></textarea>
+                <textarea class="form-control" type="text" id="description" name="concert[description]" required></textarea>
+                <div class="valid-feedback">
+                    Valid
+                </div>
             </div>
             <div class="mb-3"><button class="btn btn-success">Add Concert</button>
             </div>
@@ -33,3 +48,23 @@
     
     </div>
 </div>
+
+<script>
+    (() => {
+  'use strict'
+
+  const forms = document.querySelectorAll('.validated-form')
+
+  
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
