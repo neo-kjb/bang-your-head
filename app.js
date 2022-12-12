@@ -6,6 +6,7 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
+const { concertSchema } = require('./schemas')
 
 main().catch((err) => console.log(err))
 
@@ -26,6 +27,16 @@ app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
+const validateConcert = (req, res, next) => {
+  const { error } = concertSchema.validate(req.body)
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next()
+  }
+}
+
 app.get(
   '/concerts',
   catchAsync(async (req, res) => {
@@ -39,8 +50,8 @@ app.get('/concerts/new', (req, res) => {
 })
 app.post(
   '/concerts',
+  validateConcert,
   catchAsync(async (req, res) => {
-    if (!req.body.concert) throw new ExpressError('Invalid Concert Data', 400)
     const concert = new Concert(req.body.concert)
     await concert.save()
     res.redirect(`/concerts/${concert._id}`)
@@ -65,6 +76,7 @@ app.get(
 )
 app.put(
   '/concerts/:id',
+  validateConcert,
   catchAsync(async (req, res) => {
     const { id } = req.params
     const concert = await Concert.findByIdAndUpdate(id, { ...req.body.concert })
