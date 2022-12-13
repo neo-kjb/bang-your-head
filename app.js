@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const { concertSchema } = require('./schemas')
+const Review = require('./models/review')
 
 main().catch((err) => console.log(err))
 
@@ -90,6 +91,19 @@ app.delete(
     const { id } = req.params
     await Concert.findByIdAndDelete(id)
     res.redirect('/concerts')
+  }),
+)
+
+app.post(
+  '/concerts/:id/reviews',
+  catchAsync(async (req, res) => {
+    const concert = await Concert.findById(req.params.id)
+    const review = new Review(req.body.review)
+    concert.reviews.push(review)
+    await review.save()
+    await concert.save()
+
+    res.redirect(`/concerts/${concert._id}`)
   }),
 )
 
