@@ -118,6 +118,16 @@ app.post(
   }),
 )
 
+app.delete(
+  '/concerts/:id/reviews/:revId',
+  catchAsync(async (req, res) => {
+    const { id, revId } = req.params
+    await Concert.findByIdAndUpdate(id, { $pull: { reviews: revId } })
+    await Review.findByIdAndDelete(revId)
+    res.redirect(`/concerts/${id}`)
+  }),
+)
+
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404))
 })
