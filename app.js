@@ -73,7 +73,7 @@ app.get(
   '/concerts/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params
-    const concert = await Concert.findById(id)
+    const concert = await Concert.findById(id).populate('reviews')
     res.render('concerts/show', { concert })
   }),
 )
