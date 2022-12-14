@@ -6,7 +6,7 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
-const { concertSchema } = require('./schemas')
+const { concertSchema, reviewSchema } = require('./schemas')
 const Review = require('./models/review')
 
 main().catch((err) => console.log(err))
@@ -30,6 +30,16 @@ app.set('views', path.join(__dirname, 'views'))
 
 const validateConcert = (req, res, next) => {
   const { error } = concertSchema.validate(req.body)
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next()
+  }
+}
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body)
   if (error) {
     const msg = error.details.map((el) => el.message).join(',')
     throw new ExpressError(msg, 400)
@@ -96,6 +106,7 @@ app.delete(
 
 app.post(
   '/concerts/:id/reviews',
+  validateReview,
   catchAsync(async (req, res) => {
     const concert = await Concert.findById(req.params.id)
     const review = new Review(req.body.review)
