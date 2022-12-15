@@ -9,6 +9,8 @@ const ExpressError = require('./utils/ExpressError')
 const { concertSchema, reviewSchema } = require('./schemas')
 const Review = require('./models/review')
 
+const concerts = require('./routes/concerts')
+
 main().catch((err) => console.log(err))
 
 async function main() {
@@ -28,16 +30,6 @@ app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-const validateConcert = (req, res, next) => {
-  const { error } = concertSchema.validate(req.body)
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(',')
-    throw new ExpressError(msg, 400)
-  } else {
-    next()
-  }
-}
-
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body)
   if (error) {
@@ -48,61 +40,7 @@ const validateReview = (req, res, next) => {
   }
 }
 
-app.get(
-  '/concerts',
-  catchAsync(async (req, res) => {
-    const concerts = await Concert.find({})
-    res.render('concerts/index', { concerts })
-  }),
-)
-
-app.get('/concerts/new', (req, res) => {
-  res.render('concerts/new')
-})
-app.post(
-  '/concerts',
-  validateConcert,
-  catchAsync(async (req, res) => {
-    const concert = new Concert(req.body.concert)
-    await concert.save()
-    res.redirect(`/concerts/${concert._id}`)
-  }),
-)
-
-app.get(
-  '/concerts/:id',
-  catchAsync(async (req, res) => {
-    const { id } = req.params
-    const concert = await Concert.findById(id).populate('reviews')
-    res.render('concerts/show', { concert })
-  }),
-)
-
-app.get(
-  '/concerts/:id/edit',
-  catchAsync(async (req, res) => {
-    const concert = await Concert.findById(req.params.id)
-    res.render('concerts/edit', { concert })
-  }),
-)
-app.put(
-  '/concerts/:id',
-  validateConcert,
-  catchAsync(async (req, res) => {
-    const { id } = req.params
-    const concert = await Concert.findByIdAndUpdate(id, { ...req.body.concert })
-    res.redirect(`/concerts/${concert._id}`)
-  }),
-)
-
-app.delete(
-  '/concerts/:id',
-  catchAsync(async (req, res) => {
-    const { id } = req.params
-    await Concert.findByIdAndDelete(id)
-    res.redirect('/concerts')
-  }),
-)
+app.use('/concerts', concerts)
 
 app.post(
   '/concerts/:id/reviews',
