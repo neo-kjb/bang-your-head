@@ -59,6 +59,7 @@ router.put(
   catchAsync(async (req, res) => {
     const { id } = req.params
     const concert = await Concert.findByIdAndUpdate(id, { ...req.body.concert })
+    req.flash('success', 'Concert updated')
     res.redirect(`/concerts/${concert._id}`)
   }),
 )
@@ -68,6 +69,7 @@ router.delete(
   catchAsync(async (req, res) => {
     const { id } = req.params
     await Concert.findByIdAndDelete(id)
+    req.flash('success', 'Concert deleted')
     res.redirect('/concerts')
   }),
 )

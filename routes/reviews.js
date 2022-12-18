@@ -28,7 +28,7 @@ router.post(
     concert.reviews.push(review)
     await review.save()
     await concert.save()
-
+    req.flash('success', 'Review posted')
     res.redirect(`/concerts/${concert._id}`)
   }),
 )
@@ -39,6 +39,7 @@ router.delete(
     const { id, revId } = req.params
     await Concert.findByIdAndUpdate(id, { $pull: { reviews: revId } })
     await Review.findByIdAndDelete(revId)
+    req.flash('success', 'Review deleted')
     res.redirect(`/concerts/${id}`)
   }),
 )
