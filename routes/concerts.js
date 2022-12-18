@@ -42,6 +42,10 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params
     const concert = await Concert.findById(id).populate('reviews')
+    if (!concert) {
+      req.flash('error', 'Cannot find that concert')
+      return res.redirect('/concerts')
+    }
     res.render('concerts/show', { concert })
   }),
 )
@@ -50,6 +54,10 @@ router.get(
   '/:id/edit',
   catchAsync(async (req, res) => {
     const concert = await Concert.findById(req.params.id)
+    if (!concert) {
+      req.flash('error', 'Cannot find that concert')
+      return res.redirect('/concerts')
+    }
     res.render('concerts/edit', { concert })
   }),
 )
