@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
+const session = require('express-session')
 const ExpressError = require('./utils/ExpressError')
 
 const concerts = require('./routes/concerts')
@@ -25,6 +26,18 @@ app.engine('ejs', ejsMate)
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
+
+const sessionConfig = {
+  secret: '†††|ŽÖŽ4))¹)3Ö)',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+}
+app.use(session(sessionConfig))
 
 app.use('/concerts', concerts)
 app.use('/concerts/:id/reviews', reviews)
