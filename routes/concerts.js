@@ -32,6 +32,7 @@ router.post(
   catchAsync(async (req, res) => {
     const concert = new Concert(req.body.concert)
     await concert.save()
+    req.flash('success', 'Successfully made a new concert')
     res.redirect(`/concerts/${concert._id}`)
   }),
 )
