@@ -13,6 +13,7 @@ const reviews = require('./routes/reviews')
 main().catch((err) => console.log(err))
 
 async function main() {
+  mongoose.set('strictQuery', false)
   await mongoose.connect('mongodb://localhost:27017/head-bang', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
