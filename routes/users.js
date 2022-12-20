@@ -40,18 +40,17 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Welcome back!')
-    res.redirect('/concerts')
+    const redirectUrl = req.session.returnTo || '/concerts'
+    req.session.returnTo
+    console.log(redirectUrl)
+    res.redirect(redirectUrl)
   },
 )
 
 router.get('/logout', (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err)
-    }
-    req.flash('success', 'Goodbye!')
-    res.redirect('/concerts')
-  })
+  req.logout()
+  req.flash('success', 'Goodbye!')
+  res.redirect('/concerts')
 })
 
 module.exports = router
