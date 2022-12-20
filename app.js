@@ -10,8 +10,9 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
 
-const concerts = require('./routes/concerts')
-const reviews = require('./routes/reviews')
+const userRoutes = require('./routes/users')
+const concertRoutes = require('./routes/concerts')
+const reviewRoutes = require('./routes/reviews')
 
 main().catch((err) => console.log(err))
 
@@ -58,8 +59,9 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/concerts', concerts)
-app.use('/concerts/:id/reviews', reviews)
+app.use('/', userRoutes)
+app.use('/concerts', concertRoutes)
+app.use('/concerts/:id/reviews', reviewRoutes)
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
