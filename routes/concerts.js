@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync')
 const ExpressError = require('../utils/ExpressError')
 const Concert = require('../models/concerts')
 const { concertSchema, reviewSchema } = require('../schemas')
+const { isLoggedIn } = require('../middleware')
 
 const validateConcert = (req, res, next) => {
   const { error } = concertSchema.validate(req.body)
@@ -23,11 +24,12 @@ router.get(
   }),
 )
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
   res.render('concerts/new')
 })
 router.post(
   '/',
+  isLoggedIn,
   validateConcert,
   catchAsync(async (req, res) => {
     const concert = new Concert(req.body.concert)
@@ -52,6 +54,7 @@ router.get(
 
 router.get(
   '/:id/edit',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const concert = await Concert.findById(req.params.id)
     if (!concert) {
@@ -63,6 +66,7 @@ router.get(
 )
 router.put(
   '/:id',
+  isLoggedIn,
   validateConcert,
   catchAsync(async (req, res) => {
     const { id } = req.params
@@ -74,6 +78,7 @@ router.put(
 
 router.delete(
   '/:id',
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params
     await Concert.findByIdAndDelete(id)
