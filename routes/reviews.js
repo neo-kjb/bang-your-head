@@ -4,27 +4,18 @@ const router = express.Router({ mergeParams: true })
 const Review = require('../models/review')
 const Concert = require('../models/concerts')
 
-const { reviewSchema } = require('../schemas')
+const { validateReview, isLoggedIn } = require('../middleware')
 
-const ExpressError = require('../utils/ExpressError')
 const catchAsync = require('../utils/catchAsync')
-
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body)
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(',')
-    throw new ExpressError(msg, 400)
-  } else {
-    next()
-  }
-}
 
 router.post(
   '/',
+  isLoggedIn,
   validateReview,
   catchAsync(async (req, res) => {
     const concert = await Concert.findById(req.params.id)
     const review = new Review(req.body.review)
+    review.author = req.user._id
     concert.reviews.push(review)
     await review.save()
     await concert.save()
