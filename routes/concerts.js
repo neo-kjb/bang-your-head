@@ -33,6 +33,7 @@ router.post(
   validateConcert,
   catchAsync(async (req, res) => {
     const concert = new Concert(req.body.concert)
+    concert.author = req.user._id
     await concert.save()
     req.flash('success', 'Successfully made a new concert')
     res.redirect(`/concerts/${concert._id}`)
@@ -43,7 +44,9 @@ router.get(
   '/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params
-    const concert = await Concert.findById(id).populate('reviews')
+    const concert = await Concert.findById(id)
+      .populate('reviews')
+      .populate('author')
     if (!concert) {
       req.flash('error', 'Cannot find that concert')
       return res.redirect('/concerts')

@@ -6,6 +6,7 @@ const { descriptors, names } = require('./seedHelpers')
 main().catch((err) => console.log(err))
 
 async function main() {
+  mongoose.set('strictQuery', false)
   await mongoose.connect('mongodb://localhost:27017/head-bang', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -18,6 +19,7 @@ const seedDB = async () => {
   for (let i = 0; i < 50; i++) {
     const random1000 = Math.floor(Math.random() * 1000)
     const conc = new Concert({
+      author: '63a18ae31dd77424310cb025',
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(names)}`,
       image: 'https://source.unsplash.com/collection/834389',
