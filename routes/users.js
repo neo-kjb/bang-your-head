@@ -41,7 +41,7 @@ router.post(
   (req, res) => {
     req.flash('success', 'Welcome back!')
     const redirectUrl = req.session.returnTo || '/concerts'
-    req.session.returnTo
+    delete req.session.returnTo
     res.redirect(redirectUrl)
   },
 )

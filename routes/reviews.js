@@ -4,7 +4,7 @@ const router = express.Router({ mergeParams: true })
 const Review = require('../models/review')
 const Concert = require('../models/concerts')
 
-const { validateReview, isLoggedIn } = require('../middleware')
+const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware')
 
 const catchAsync = require('../utils/catchAsync')
 
@@ -26,6 +26,8 @@ router.post(
 
 router.delete(
   '/:revId',
+  isLoggedIn,
+  isReviewAuthor,
   catchAsync(async (req, res) => {
     const { id, revId } = req.params
     await Concert.findByIdAndUpdate(id, { $pull: { reviews: revId } })

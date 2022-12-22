@@ -1,4 +1,5 @@
 const Concert = require('./models/concerts')
+const Review = require('./models/review')
 const { concertSchema, reviewSchema } = require('./schemas')
 const ExpressError = require('./utils/ExpressError')
 module.exports.isLoggedIn = (req, res, next) => {
@@ -38,4 +39,14 @@ module.exports.validateReview = (req, res, next) => {
   } else {
     next()
   }
+}
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, revId } = req.params
+  const review = await Review.findById(revId)
+  if (!review.author.equals(req.user._id)) {
+    req.flash('error', 'You do not have premission to do that')
+    return res.redirect(`/concerts/${id}`)
+  }
+  next()
 }

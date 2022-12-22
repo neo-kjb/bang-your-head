@@ -33,7 +33,10 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params
     const concert = await Concert.findById(id)
-      .populate('reviews')
+      .populate({
+        path: 'reviews',
+        populate: { path: 'author' },
+      })
       .populate('author')
     if (!concert) {
       req.flash('error', 'Cannot find that concert')
