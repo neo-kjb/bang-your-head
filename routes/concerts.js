@@ -5,18 +5,23 @@ const catchAsync = require('../utils/catchAsync')
 const Concert = require('../models/concerts')
 const { isLoggedIn, isAuthor, validateConcert } = require('../middleware')
 
-router.get('/', catchAsync(concerts.index))
+router
+  .route('/')
+  .get(catchAsync(concerts.index))
+  .post(isLoggedIn, validateConcert, catchAsync(concerts.createConcert))
 
 router.get('/new', isLoggedIn, concerts.renderNewForm)
 
-router.post(
-  '/',
-  isLoggedIn,
-  validateConcert,
-  catchAsync(concerts.createConcert),
-)
-
-router.get('/:id', catchAsync(concerts.showConcert))
+router
+  .route('/:id')
+  .get(catchAsync(concerts.showConcert))
+  .put(
+    isLoggedIn,
+    isAuthor,
+    validateConcert,
+    catchAsync(concerts.updateConcert),
+  )
+  .delete(isLoggedIn, isAuthor, catchAsync(concerts.deleteConcert))
 
 router.get(
   '/:id/edit',
@@ -24,15 +29,5 @@ router.get(
   isAuthor,
   catchAsync(concerts.renderEditForm),
 )
-
-router.put(
-  '/:id',
-  isLoggedIn,
-  isAuthor,
-  validateConcert,
-  catchAsync(concerts.updateConcert),
-)
-
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(concerts.deleteConcert))
 
 module.exports = router
