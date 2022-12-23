@@ -1,15 +1,19 @@
+const { required } = require('joi')
 const joi = require('joi')
 module.exports.concertSchema = joi.object({
   concert: joi
     .object({
       title: joi.string().required(),
       price: joi.number().required().min(0),
-      images: joi.array().items(
-        joi.object({
-          url: joi.string().required(),
-          filename: joi.string().required(),
-        }),
-      ),
+      images: joi
+        .array()
+        .items(
+          joi.object({
+            url: joi.string().required(),
+            filename: joi.string().required(),
+          }),
+        )
+        .required(),
       location: joi.string().required(),
       description: joi.string().required(),
     })
