@@ -5,15 +5,12 @@ module.exports.concertSchema = joi.object({
     .object({
       title: joi.string().required(),
       price: joi.number().required().min(0),
-      images: joi
-        .array()
-        .items(
-          joi.object({
-            url: joi.string().required(),
-            filename: joi.string().required(),
-          }),
-        )
-        .required(),
+      images: joi.array().items(
+        joi.object({
+          url: joi.string().required(),
+          filename: joi.string().required(),
+        }),
+      ),
       location: joi.string().required(),
       description: joi.string().required(),
     })

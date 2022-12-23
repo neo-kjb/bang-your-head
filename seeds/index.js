@@ -22,7 +22,18 @@ const seedDB = async () => {
       author: '63a18ae31dd77424310cb025',
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(names)}`,
-      image: 'https://source.unsplash.com/collection/834389',
+      images: [
+        {
+          url:
+            'https://res.cloudinary.com/di9tp2zow/image/upload/v1671820620/BangYourHead/mvpddonanqv5ndnr7d5v.jpg',
+          filename: 'BangYourHead/mvpddonanqv5ndnr7d5v',
+        },
+        {
+          url:
+            'https://res.cloudinary.com/di9tp2zow/image/upload/v1671820620/BangYourHead/mopjyab7hsiw1dwhpv9s.jpg',
+          filename: 'BangYourHead/mopjyab7hsiw1dwhpv9s',
+        },
+      ],
       description:
         '  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dolores vero cum atque amet nam obcaecati vel ratione dolorum qui totam maxime animi vitae praesentium ea, eos pariatur ullam et?',
       price: Math.floor(Math.random() * 20) + 10,
