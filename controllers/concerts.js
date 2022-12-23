@@ -42,6 +42,12 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateConcert = async (req, res) => {
   const { id } = req.params
   const concert = await Concert.findByIdAndUpdate(id, { ...req.body.concert })
+  const imgs = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }))
+  concert.images.push(...imgs)
+  await concert.save()
   req.flash('success', 'Concert updated')
   res.redirect(`/concerts/${concert._id}`)
 }

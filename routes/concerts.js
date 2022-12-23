@@ -26,6 +26,7 @@ router
   .put(
     isLoggedIn,
     isAuthor,
+    upload.array('image'),
     validateConcert,
     catchAsync(concerts.updateConcert),
   )
