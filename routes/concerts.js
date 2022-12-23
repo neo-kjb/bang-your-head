@@ -5,12 +5,16 @@ const catchAsync = require('../utils/catchAsync')
 const Concert = require('../models/concerts')
 const { isLoggedIn, isAuthor, validateConcert } = require('../middleware')
 const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const { storage } = require('../cloudinary')
+const upload = multer({ storage })
 
 router
   .route('/')
   .get(catchAsync(concerts.index))
-  .post(isLoggedIn, validateConcert, catchAsync(concerts.createConcert))
+  .post(upload.array('image'), (req, res) => {
+    console.log(req.body, req.files)
+  })
+// .post(isLoggedIn, validateConcert, catchAsync(concerts.createConcert))
 
 router.get('/new', isLoggedIn, concerts.renderNewForm)
 
