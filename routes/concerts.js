@@ -4,6 +4,8 @@ const concerts = require('../controllers/concerts')
 const catchAsync = require('../utils/catchAsync')
 const Concert = require('../models/concerts')
 const { isLoggedIn, isAuthor, validateConcert } = require('../middleware')
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 router
   .route('/')
