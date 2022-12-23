@@ -11,6 +11,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createConcert = async (req, res) => {
   const concert = new Concert(req.body.concert)
+  concert.images = req.files.map((f) => ({ url: f.path, filename: f.filename }))
   concert.author = req.user._id
   await concert.save()
   req.flash('success', 'Successfully made a new concert')
