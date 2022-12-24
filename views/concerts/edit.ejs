@@ -19,10 +19,7 @@
                     </div>
                     
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="image">Add images</label>
-                    <input type="file" name="image" id="image" multiple>
-                </div>
+
                 <div class="mb-3">
                     <label class="form-label" for="price">Concert Price</label>
                     <div class="input-group">
@@ -40,8 +37,15 @@
                         Valid
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label for="image">Add Images</label>
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="image" name="image" multiple>
+                  </div>
+                </div>
                 <div class="mb-3"><button class="btn btn-info">Update Concert</button>
                 </div>
+
             </form>
             <a href="/concerts/<%= concert._id %> ">Back To Concert</a>
         
