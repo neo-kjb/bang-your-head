@@ -43,7 +43,17 @@
                     <input type="file" class="form-control" id="image" name="image" multiple>
                   </div>
                 </div>
-                <div class="mb-3"><button class="btn btn-info">Update Concert</button>
+                <div class="mb-3">
+                    <% concert.images.forEach(function(img,i){ %>
+                        <img src="<%= img.url %> " class="img-thumbnail" alt="">
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="deleteImages[]" value="<%= img.filename %> " id="image-<%= i %> ">
+                        </div>
+                        <label for="image-<%= i %> ">Delete</label>
+                    <% }) %> 
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info">Update Concert</button>
                 </div>
 
             </form>
