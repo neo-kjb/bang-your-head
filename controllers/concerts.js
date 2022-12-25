@@ -1,4 +1,5 @@
 const Concert = require('../models/concerts')
+const { cloudinary } = require('../cloudinary')
 
 module.exports.index = async (req, res) => {
   const concerts = await Concert.find({})
@@ -48,6 +49,15 @@ module.exports.updateConcert = async (req, res) => {
   }))
   concert.images.push(...imgs)
   await concert.save()
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename)
+    }
+    await concert.updateOne({
+      $pull: { images: { filename: { $in: req.body.deleteImages } } },
+    })
+    console.log(concert)
+  }
   req.flash('success', 'Concert updated')
   res.redirect(`/concerts/${concert._id}`)
 }
