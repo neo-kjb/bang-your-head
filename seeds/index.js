@@ -21,6 +21,10 @@ const seedDB = async () => {
     const conc = new Concert({
       author: '63a18ae31dd77424310cb025',
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
+      geometry: {
+        type: 'Point',
+        coordinates: [36.4358628369717, 31.0101920713363],
+      },
       title: `${sample(descriptors)} ${sample(names)}`,
       images: [
         {
