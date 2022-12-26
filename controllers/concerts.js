@@ -22,6 +22,7 @@ module.exports.createConcert = async (req, res) => {
     })
     .send()
   const concert = new Concert(req.body.concert)
+  concert.geometry = geoData.body.features[0].geometry
   concert.images = req.files.map((f) => ({ url: f.path, filename: f.filename }))
   concert.author = req.user._id
   await concert.save()
