@@ -1,4 +1,8 @@
 const Concert = require('../models/concerts')
+const mbxgeocodeing = require('@mapbox/mapbox-sdk/services/geocoding')
+const mapBoxToken = process.env.MAP_TOKEN
+const geocoder = mbxgeocodeing({ accessToken: mapBoxToken })
+
 const { cloudinary } = require('../cloudinary')
 
 module.exports.index = async (req, res) => {
@@ -11,6 +15,12 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createConcert = async (req, res) => {
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.concert.location,
+      limit: 1,
+    })
+    .send()
   const concert = new Concert(req.body.concert)
   concert.images = req.files.map((f) => ({ url: f.path, filename: f.filename }))
   concert.author = req.user._id
@@ -56,7 +66,6 @@ module.exports.updateConcert = async (req, res) => {
     await concert.updateOne({
       $pull: { images: { filename: { $in: req.body.deleteImages } } },
     })
-    console.log(concert)
   }
   req.flash('success', 'Concert updated')
   res.redirect(`/concerts/${concert._id}`)
