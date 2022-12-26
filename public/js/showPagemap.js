@@ -8,4 +8,9 @@ const map = new mapboxgl.Map({
 
 new mapboxgl.Marker({ color: 'black', rotation: 45 })
   .setLngLat(concert.geometry.coordinates)
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 }).setHTML(
+      `<h3>${concert.title}</h3><p>${concert.location}</p>`,
+    ),
+  )
   .addTo(map)
