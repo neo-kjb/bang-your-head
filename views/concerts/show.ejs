@@ -92,5 +92,10 @@
       <% } %> 
 </div>
 </div>
-<script>const mapToken ='<%=process.env.MAP_TOKEN%>'</script>
+<script>
+const mapToken ='<%-process.env.MAP_TOKEN%>'
+const concert= <%- JSON.stringify(concert) %>
+
+</script>
+
 <script src="/js/showPageMap.js"></script>
