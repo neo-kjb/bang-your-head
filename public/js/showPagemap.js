@@ -5,6 +5,7 @@ const map = new mapboxgl.Map({
   center: concert.geometry.coordinates,
   zoom: 4,
 })
+map.addControl(new mapboxgl.NavigationControl())
 
 new mapboxgl.Marker({ color: 'black', rotation: 45 })
   .setLngLat(concert.geometry.coordinates)
