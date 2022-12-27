@@ -64,12 +64,16 @@ app.use((req, res, next) => {
   next()
 })
 
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
+
 app.use('/', userRoutes)
 app.use('/concerts', concertRoutes)
 app.use('/concerts/:id/reviews', reviewRoutes)
 
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'views'))
+app.get('/', (req, res) => {
+  res.render('home')
+})
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404))
