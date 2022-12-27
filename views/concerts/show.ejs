@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="/css/stars.css">
 <div class="row">
     <div class="col-6 ">
-      <div id='map' style='width: 400px; height: 300px;'></div>
 
       <div id="concertCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -49,6 +48,9 @@
          
     </div>
     <div class="col-6">
+
+      <div id='map'></div>
+
       <% if(currentUser){%> 
       <h2>Leave a Review</h2>
       <form method="post" action="/concerts/<%= concert._id %>/reviews " class="mb-3 validated-form" novalidate>

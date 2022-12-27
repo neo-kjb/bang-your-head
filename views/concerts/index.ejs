@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %> 
-<div id="map" style="height: 500px;width: 100%;"></div>
-
+<div id="cluster-map"></div>
+<div class="container">
     <h1>All Concerts</h1>
     <div><a href="/concerts/new">Add New Concert</a></div>
         <% for(let concert of concerts){%>
@@ -29,7 +29,7 @@
             </div>
         
        <% } %> 
-
+</div>
 
 
 <script>
