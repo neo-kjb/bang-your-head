@@ -16,7 +16,7 @@ const sample = (arr) => arr[Math.floor(Math.random() * arr.length)]
 
 const seedDB = async () => {
   await Concert.deleteMany({})
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 400; i++) {
     const random1000 = Math.floor(Math.random() * 1000)
     const conc = new Concert({
       author: '63a18ae31dd77424310cb025',

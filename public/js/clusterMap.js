@@ -11,9 +11,9 @@ map.on('load', () => {
   // Add a new source from our GeoJSON data and
   // set the 'cluster' option to true. GL-JS will
   // add the point_count property to your source data.
-  map.addSource('earthquakes', {
+  map.addSource('concerts', {
     type: 'geojson',
-    // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+    // Point to GeoJSON data. This example visualizes all M1.0+ concerts
     // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
     data: concerts,
     cluster: true,
@@ -24,7 +24,7 @@ map.on('load', () => {
   map.addLayer({
     id: 'clusters',
     type: 'circle',
-    source: 'earthquakes',
+    source: 'concerts',
     filter: ['has', 'point_count'],
     paint: {
       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
@@ -35,20 +35,20 @@ map.on('load', () => {
       'circle-color': [
         'step',
         ['get', 'point_count'],
-        '#51bbd6',
-        100,
-        '#f1f075',
-        750,
-        '#f28cb1',
+        '#7fdfff',
+        10,
+        '#2196F3',
+        30,
+        '#3F5185',
       ],
-      'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
+      'circle-radius': ['step', ['get', 'point_count'], 15, 10, 20, 30, 25],
     },
   })
 
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
-    source: 'earthquakes',
+    source: 'concerts',
     filter: ['has', 'point_count'],
     layout: {
       'text-field': ['get', 'point_count_abbreviated'],
@@ -60,7 +60,7 @@ map.on('load', () => {
   map.addLayer({
     id: 'unclustered-point',
     type: 'circle',
-    source: 'earthquakes',
+    source: 'concerts',
     filter: ['!', ['has', 'point_count']],
     paint: {
       'circle-color': '#11b4da',
@@ -77,7 +77,7 @@ map.on('load', () => {
     })
     const clusterId = features[0].properties.cluster_id
     map
-      .getSource('earthquakes')
+      .getSource('concerts')
       .getClusterExpansionZoom(clusterId, (err, zoom) => {
         if (err) return
 
