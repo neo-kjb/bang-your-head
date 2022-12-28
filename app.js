@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
@@ -19,6 +18,7 @@ const helmet = require('helmet')
 const userRoutes = require('./routes/users')
 const concertRoutes = require('./routes/concerts')
 const reviewRoutes = require('./routes/reviews')
+const dbUrl = process.env.DB_URL
 
 main().catch((err) => console.log(err))
 
