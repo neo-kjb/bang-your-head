@@ -20,7 +20,7 @@ const userRoutes = require('./routes/users')
 const concertRoutes = require('./routes/concerts')
 const reviewRoutes = require('./routes/reviews')
 const { func } = require('joi')
-const dbUrl = 'mongodb://localhost:27017/head-bang'
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/head-bang'
 
 main().catch((err) => console.log(err))
 
@@ -48,7 +48,7 @@ app.use(
 
 const store = new MongoStore({
   url: dbUrl,
-  secret: process.env.STORE_SECRET,
+  secret: process.env.STORE_SECRET || '857y3ogrh^%YRF@#$%^&*(',
   touchAfter: 24 * 60 * 60,
 })
 
@@ -59,7 +59,7 @@ store.on('error', function (e) {
 const sessionConfig = {
   store,
   name: '_map',
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'å9358yhثلث5ًٌٌٍٍََُُِ][لأ}',
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -154,6 +154,8 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000
+
+app.listen(port, () => {
   console.log('listening')
 })
