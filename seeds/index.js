@@ -32,13 +32,18 @@ const seedDB = async () => {
       images: [
         {
           url:
-            'https://res.cloudinary.com/di9tp2zow/image/upload/v1671820620/BangYourHead/mvpddonanqv5ndnr7d5v.jpg',
-          filename: 'BangYourHead/mvpddonanqv5ndnr7d5v',
+            'https://res.cloudinary.com/di9tp2zow/image/upload/v1672196422/BangYourHead/dmq3j82ctqzjyanwobvq.jpg',
+          filename: 'BangYourHead/dmq3j82ctqzjyanwobvq',
         },
         {
           url:
-            'https://res.cloudinary.com/di9tp2zow/image/upload/v1671820620/BangYourHead/mopjyab7hsiw1dwhpv9s.jpg',
-          filename: 'BangYourHead/mopjyab7hsiw1dwhpv9s',
+            'https://res.cloudinary.com/di9tp2zow/image/upload/v1672196422/BangYourHead/rhduy2wkk2qxzmy1nfcp.jpg',
+          filename: 'BangYourHead/rhduy2wkk2qxzmy1nfcp',
+        },
+        {
+          url:
+            'https://res.cloudinary.com/di9tp2zow/image/upload/v1672196421/BangYourHead/b6lmeg8mutyetxuc4qgt.jpg',
+          filename: 'BangYourHead/b6lmeg8mutyetxuc4qgt',
         },
       ],
       description:
