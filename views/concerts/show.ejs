@@ -30,7 +30,7 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item text-muted"><%= concert.location %></li>
               <li class="list-group-item">Submitted by <%= concert.author.username %></li>
-              <li class="list-group-item">$<%= concert.price %>/night</li>
+              <li class="list-group-item">$<%= concert.price %>/ticket</li>
             </ul>
             <% if (currentUser && concert.author.equals(currentUser._id)){ %> 
             <div class="card-body">
@@ -41,7 +41,7 @@
             </div>
             <% } %> 
             <div class="card-footer text-mute">
-                2 days ago
+                Posted on <%-`${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`%> 
             </div>
          
         </div>
